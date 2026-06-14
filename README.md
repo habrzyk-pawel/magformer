@@ -1,62 +1,67 @@
 # Magformer: Magnetic Transformer Emulator
 
-Magformer is a design-automation software pipeline built to compile digital Transformer models into physical analog oscillator circuits. The goal is to produce hardware capable of running Transformer inference at 10x to 100x lower energy consumption (e.g., <10 µJ per inference for Edge AI Keyword Spotting) by replacing expensive digital matrix multiplications with the natural physics of coupled oscillators.
+Magformer is a design-automation pipeline that compiles a frozen digital Transformer into a physical analog oscillator circuit. The goal is to push Edge AI inference energy down by one to two orders of magnitude by replacing expensive digital matrix multiplications with Kuramoto-style coupled LC oscillators.
 
-## Core Philosophy
-This repository focuses on **productization and engineering**. We are taking the theoretical physics of oscillator-based attention (Kuramoto models) and building a compiler that spits out fabrication-ready SPICE netlists. 
+This repository contains a weekend-scale proof-of-concept: a PyTorch compiler that distills a tiny Transformer into oscillator parameters, validates the result against true differential equations, and exports a SPICE netlist (`magformer_chip.cir`) ready for LTSpice or Cadence.
 
-The pipeline has 4 stages:
-1. **Target**: A tiny frozen PyTorch Transformer.
-2. **Compiler**: A knowledge distillation loop that forces a differentiable oscillator network to clone the Transformer's behavior.
-3. **Validator**: Cross-checks the fast algebraic training math against true differential equations (ODE).
-4. **Exporter**: Maps the trained neural parameters to physical inductors, capacitors, and resistors in a 180nm CMOS process.
+## Core idea
 
----
+A self-attention block computes:
 
-## File Structure & Usage
+Attention(*Q*, *K*, *V*) = softmax(*QK*<sup>T</sup> / √*d<sub>k</sub>*) *V*
 
-### 1. `demo.py` (The Hello World)
-A completely self-contained, single-file demonstration on synthetic data.
-* **What it does:** Trains a tiny 1-layer Transformer on a toy sequence dataset, then trains an 8-oscillator network to mimic it using the fast algebraic Steady-State Approximation (SSA) of the Kuramoto model.
-* **Run:** `python demo.py`
+Loading *Q*, *K*, *V* and running the GEMM is expensive on a battery-powered sensor. A network of weakly coupled LC tanks naturally settles into phase relationships that behave like a kernel / similarity function. If we learn the right frequencies, damping terms, and coupling resistances, the oscillator array can approximate the Transformer output without ever executing a dense multiply.
 
-### 2. `speech_demo.py` (Real Audio Workload)
-The core compiler pipeline applied to the Google Speech Commands dataset.
-* **What it does:** Downloads 1-second audio clips for the words "yes", "no", "up", "down", extracts MFCCs, trains a golden Transformer, and successfully distills it into a 16-oscillator network.
-* **Status:** Achieves 100% behavioral cloning agreement (89.6% validation accuracy) between the digital Transformer and the analog analog oscillator simulation.
-* **Dataset:** run `python download_data.py` first to fetch Google Speech Commands v0.02 (~2.3 GB).
-* **Run:** `python speech_demo.py`
+## The 4-stage pipeline
 
-### 3. `ode_validation.py` (Physics Verification)
-* **What it does:** Uses `torchdiffeq` to simulate the continuous-time physical differential equations ($dx/dt$) of the oscillators. It compares this "true physics" output against the fast algebraic shortcut (SSA) used during training to ensure our models don't break the laws of physics.
-* **Run:** `python ode_validation.py`
+| Stage | File | What it does |
+|---|---|---|
+| 1. Target | `demo.py`, `speech_demo.py` | Train a small golden Transformer on toy or audio data. |
+| 2. Compiler | `speech_demo.py` | Distill the Transformer into oscillator parameters using a fast algebraic Steady-State Approximation (SSA). |
+| 3. Validator | `ode_validation.py` | Integrate the true continuous-time ODEs with `torchdiffeq` and compare against SSA. |
+| 4. Exporter | `spice_export.py` | Map parameters to 180 nm CMOS components and emit a `.cir` netlist. |
 
-### 4. `spice_export.py` (Hardware Generation)
-* **What it does:** Takes the abstract parameters of a trained oscillator network (resonant frequencies $\omega$, damping factors $\gamma$, and coupling matrix $K$) and maps them to standard physical component values (e.g., 1.2nH inductors, 1pF capacitors). Outputs a `.cir` netlist.
-* **Output:** Generates `magformer_chip.cir`
-* **Run:** `python spice_export.py`
-
----
-
-## Dependencies
-The stack is built to be as minimal as possible.
-* `torch`
-* `torchaudio`
-* `soundfile` (used as the backend for torchaudio on Windows)
-* `torchdiffeq` (for the ODE solver validation)
-
-## Install
+## Quick start
 
 ```bash
 pip install torch torchaudio soundfile torchdiffeq
 
-# Download the dataset (~2.3 GB)
+# Download Google Speech Commands v0.02 (~2.3 GB)
 python download_data.py
+
+# Run the end-to-end audio pipeline
+python speech_demo.py
+
+# Verify physics
+python ode_validation.py
+
+# Generate the chip netlist
+python spice_export.py
 ```
 
----
+## File guide
 
-## Next Steps for Hardware Productization
-We have successfully proven the software toolchain. The immediate next steps for the hardware track are:
-1. Load `magformer_chip.cir` into LTSpice / Cadence to verify the analog behavior on transistor-level models.
-2. Implement a Monte Carlo fabrication yield simulator (perturbing component values by ±5% to ensure the learned weights are robust to silicon manufacturing variances).
+- `demo.py` — minimal sequence-to-sequence demo on synthetic data (no dataset download needed).
+- `speech_demo.py` — keyword spotting on Google Speech Commands (`yes`, `no`, `up`, `down`); reaches ~89.6% validation accuracy and 100% behavioral-cloning agreement with the oscillator approximation.
+- `ode_validation.py` — physics check: compares SSA predictions to explicit ODE integration.
+- `spice_export.py` — converts abstract *ω*, *γ*, *K* into inductors, capacitors, and resistors.
+- `download_data.py` — fetches the ~2.3 GB audio dataset from Google.
+- `assets/images/magformer/` — diagrams and plots used in the blog post.
+
+## Results (back-of-the-envelope)
+
+| Platform | Estimated energy / inference |
+|---|---|
+| CPU / cloud | ~10 000 µJ |
+| Edge MCU | ~100 µJ |
+| Optimized analog ASIC (target) | **< 10 µJ** |
+
+## Next steps
+
+1. Open `magformer_chip.cir` in LTSpice / Cadence and verify analog behavior with real transistor models.
+2. Add a Monte Carlo yield simulator (±5% component tolerance) to prove silicon robustness.
+
+## Read more
+
+- Blog post: https://habrzyk-pawel.github.io/2026/06/14/Magformer-compiling-transformers-into-analog-oscillator-circuits.html
+- Author: Paweł Habrzyk
