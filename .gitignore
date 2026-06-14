@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+.ipynb_checkpoints
+
+# Dataset / audio (downloaded by script)
+*.tar.gz
+SpeechCommands/
+speech_commands_v0.02/
+*.wav
+*.mp3
+
+# SPICE / simulation artefacts
+*.log
+*.raw
+*.net
+*.plt
+
+# Data outputs
+*.csv
+*.pt
+*.pth
+*.ckpt
+outputs/
+results/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

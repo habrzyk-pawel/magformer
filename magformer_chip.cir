@@ -1,0 +1,88 @@
+* MAGFORMER EDGE AI INFERENCE CHIP
+* Process: 180nm CMOS Analog Prototype
+* Oscillators: 8
+
+.INCLUDE 180nm_models.txt
+
+* --- OSCILLATOR LC TANKS ---
+C0 osc_0 0 1.00p
+L0 osc_0 0 1.64n
+R_damp0 osc_0 0 0.73
+D0a osc_0 0 1N4148
+D0b 0 osc_0 1N4148
+
+C1 osc_1 0 1.00p
+L1 osc_1 0 1.90n
+R_damp1 osc_1 0 0.69
+D1a osc_1 0 1N4148
+D1b 0 osc_1 1N4148
+
+C2 osc_2 0 1.00p
+L2 osc_2 0 1.76n
+R_damp2 osc_2 0 0.67
+D2a osc_2 0 1N4148
+D2b 0 osc_2 1N4148
+
+C3 osc_3 0 1.00p
+L3 osc_3 0 1.77n
+R_damp3 osc_3 0 0.72
+D3a osc_3 0 1N4148
+D3b 0 osc_3 1N4148
+
+C4 osc_4 0 1.00p
+L4 osc_4 0 4.91n
+R_damp4 osc_4 0 0.80
+D4a osc_4 0 1N4148
+D4b 0 osc_4 1N4148
+
+C5 osc_5 0 1.00p
+L5 osc_5 0 2.38n
+R_damp5 osc_5 0 0.69
+D5a osc_5 0 1N4148
+D5b 0 osc_5 1N4148
+
+C6 osc_6 0 1.00p
+L6 osc_6 0 0.52n
+R_damp6 osc_6 0 0.69
+D6a osc_6 0 1N4148
+D6b 0 osc_6 1N4148
+
+C7 osc_7 0 1.00p
+L7 osc_7 0 3.35n
+R_damp7 osc_7 0 0.72
+D7a osc_7 0 1N4148
+D7b 0 osc_7 1N4148
+
+* --- ATTENTION CROSSBAR (COUPLING) ---
+R_c0_1 osc_0 osc_1 152.9k
+R_c0_2 osc_0 osc_2 173.5k
+R_c0_3 osc_0 osc_3 123.6k
+R_c0_4 osc_0 osc_4 191.8k
+R_c0_5 osc_0 osc_5 100.1k
+R_c0_6 osc_0 osc_6 109.5k
+R_c0_7 osc_0 osc_7 83.4k
+R_c1_2 osc_1 osc_2 116.6k
+R_c1_3 osc_1 osc_3 92.5k
+R_c1_4 osc_1 osc_4 157.0k
+R_c1_5 osc_1 osc_5 142.1k
+R_c1_6 osc_1 osc_6 158.2k
+R_c1_7 osc_1 osc_7 107.4k
+R_c2_3 osc_2 osc_3 82.5k
+R_c2_4 osc_2 osc_4 128.9k
+R_c2_5 osc_2 osc_5 168.7k
+R_c2_6 osc_2 osc_6 129.5k
+R_c2_7 osc_2 osc_7 193.0k
+R_c3_4 osc_3 osc_4 235.6k
+R_c3_5 osc_3 osc_5 73.6k
+R_c3_6 osc_3 osc_6 231.8k
+R_c3_7 osc_3 osc_7 172.8k
+R_c4_5 osc_4 osc_5 96.6k
+R_c4_6 osc_4 osc_6 196.0k
+R_c4_7 osc_4 osc_7 190.1k
+R_c5_6 osc_5 osc_6 227.2k
+R_c5_7 osc_5 osc_7 91.1k
+R_c6_7 osc_6 osc_7 94.1k
+
+* --- SIMULATION COMMANDS ---
+.TRAN 0.1n 100n
+.END
