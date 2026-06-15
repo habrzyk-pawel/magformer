@@ -1,87 +1,227 @@
 * MAGFORMER EDGE AI INFERENCE CHIP
 * Process: 180nm CMOS Analog Prototype
-* Oscillators: 8
+* Oscillators: 16
 
 .INCLUDE 180nm_models.txt
 
 * --- OSCILLATOR LC TANKS ---
 C0 osc_0 0 1.00p
-L0 osc_0 0 1.64n
-R_damp0 osc_0 0 0.73
+L0 osc_0 0 1.32n
+R_damp0 osc_0 0 0.58
 D0a osc_0 0 1N4148
 D0b 0 osc_0 1N4148
 
 C1 osc_1 0 1.00p
-L1 osc_1 0 1.90n
-R_damp1 osc_1 0 0.69
+L1 osc_1 0 0.90n
+R_damp1 osc_1 0 0.73
 D1a osc_1 0 1N4148
 D1b 0 osc_1 1N4148
 
 C2 osc_2 0 1.00p
-L2 osc_2 0 1.76n
-R_damp2 osc_2 0 0.67
+L2 osc_2 0 4.08n
+R_damp2 osc_2 0 0.44
 D2a osc_2 0 1N4148
 D2b 0 osc_2 1N4148
 
 C3 osc_3 0 1.00p
-L3 osc_3 0 1.77n
-R_damp3 osc_3 0 0.72
+L3 osc_3 0 4.09n
+R_damp3 osc_3 0 0.47
 D3a osc_3 0 1N4148
 D3b 0 osc_3 1N4148
 
 C4 osc_4 0 1.00p
-L4 osc_4 0 4.91n
-R_damp4 osc_4 0 0.80
+L4 osc_4 0 9.14n
+R_damp4 osc_4 0 0.54
 D4a osc_4 0 1N4148
 D4b 0 osc_4 1N4148
 
 C5 osc_5 0 1.00p
-L5 osc_5 0 2.38n
-R_damp5 osc_5 0 0.69
+L5 osc_5 0 1.78n
+R_damp5 osc_5 0 0.57
 D5a osc_5 0 1N4148
 D5b 0 osc_5 1N4148
 
 C6 osc_6 0 1.00p
-L6 osc_6 0 0.52n
-R_damp6 osc_6 0 0.69
+L6 osc_6 0 1.49n
+R_damp6 osc_6 0 0.49
 D6a osc_6 0 1N4148
 D6b 0 osc_6 1N4148
 
 C7 osc_7 0 1.00p
-L7 osc_7 0 3.35n
-R_damp7 osc_7 0 0.72
+L7 osc_7 0 2.29n
+R_damp7 osc_7 0 0.87
 D7a osc_7 0 1N4148
 D7b 0 osc_7 1N4148
 
+C8 osc_8 0 1.00p
+L8 osc_8 0 1.75n
+R_damp8 osc_8 0 0.76
+D8a osc_8 0 1N4148
+D8b 0 osc_8 1N4148
+
+C9 osc_9 0 1.00p
+L9 osc_9 0 1.03n
+R_damp9 osc_9 0 0.61
+D9a osc_9 0 1N4148
+D9b 0 osc_9 1N4148
+
+C10 osc_10 0 1.00p
+L10 osc_10 0 1.76n
+R_damp10 osc_10 0 0.56
+D10a osc_10 0 1N4148
+D10b 0 osc_10 1N4148
+
+C11 osc_11 0 1.00p
+L11 osc_11 0 0.46n
+R_damp11 osc_11 0 0.51
+D11a osc_11 0 1N4148
+D11b 0 osc_11 1N4148
+
+C12 osc_12 0 1.00p
+L12 osc_12 0 0.58n
+R_damp12 osc_12 0 0.61
+D12a osc_12 0 1N4148
+D12b 0 osc_12 1N4148
+
+C13 osc_13 0 1.00p
+L13 osc_13 0 8.01n
+R_damp13 osc_13 0 0.50
+D13a osc_13 0 1N4148
+D13b 0 osc_13 1N4148
+
+C14 osc_14 0 1.00p
+L14 osc_14 0 7.50n
+R_damp14 osc_14 0 0.45
+D14a osc_14 0 1N4148
+D14b 0 osc_14 1N4148
+
+C15 osc_15 0 1.00p
+L15 osc_15 0 3.29n
+R_damp15 osc_15 0 0.54
+D15a osc_15 0 1N4148
+D15b 0 osc_15 1N4148
+
 * --- ATTENTION CROSSBAR (COUPLING) ---
-R_c0_1 osc_0 osc_1 152.9k
-R_c0_2 osc_0 osc_2 173.5k
-R_c0_3 osc_0 osc_3 123.6k
-R_c0_4 osc_0 osc_4 191.8k
-R_c0_5 osc_0 osc_5 100.1k
-R_c0_6 osc_0 osc_6 109.5k
-R_c0_7 osc_0 osc_7 83.4k
-R_c1_2 osc_1 osc_2 116.6k
-R_c1_3 osc_1 osc_3 92.5k
-R_c1_4 osc_1 osc_4 157.0k
-R_c1_5 osc_1 osc_5 142.1k
-R_c1_6 osc_1 osc_6 158.2k
-R_c1_7 osc_1 osc_7 107.4k
-R_c2_3 osc_2 osc_3 82.5k
-R_c2_4 osc_2 osc_4 128.9k
-R_c2_5 osc_2 osc_5 168.7k
-R_c2_6 osc_2 osc_6 129.5k
-R_c2_7 osc_2 osc_7 193.0k
-R_c3_4 osc_3 osc_4 235.6k
-R_c3_5 osc_3 osc_5 73.6k
-R_c3_6 osc_3 osc_6 231.8k
-R_c3_7 osc_3 osc_7 172.8k
-R_c4_5 osc_4 osc_5 96.6k
-R_c4_6 osc_4 osc_6 196.0k
-R_c4_7 osc_4 osc_7 190.1k
-R_c5_6 osc_5 osc_6 227.2k
-R_c5_7 osc_5 osc_7 91.1k
-R_c6_7 osc_6 osc_7 94.1k
+R_c0_1 osc_0 osc_1 128.2k
+R_c0_2 osc_0 osc_2 234.3k
+R_c0_3 osc_0 osc_3 173.9k
+R_c0_4 osc_0 osc_4 191.0k
+R_c0_5 osc_0 osc_5 142.1k
+R_c0_6 osc_0 osc_6 128.6k
+R_c0_7 osc_0 osc_7 128.8k
+R_c0_8 osc_0 osc_8 135.2k
+R_c0_9 osc_0 osc_9 122.3k
+R_c0_10 osc_0 osc_10 106.1k
+R_c0_11 osc_0 osc_11 130.2k
+R_c0_12 osc_0 osc_12 110.4k
+R_c0_13 osc_0 osc_13 194.4k
+R_c0_14 osc_0 osc_14 135.5k
+R_c0_15 osc_0 osc_15 207.4k
+R_c1_2 osc_1 osc_2 113.3k
+R_c1_3 osc_1 osc_3 182.7k
+R_c1_4 osc_1 osc_4 159.5k
+R_c1_5 osc_1 osc_5 293.4k
+R_c1_6 osc_1 osc_6 244.7k
+R_c1_7 osc_1 osc_7 197.8k
+R_c1_8 osc_1 osc_8 186.7k
+R_c1_9 osc_1 osc_9 101.7k
+R_c1_10 osc_1 osc_10 211.9k
+R_c1_11 osc_1 osc_11 184.3k
+R_c1_12 osc_1 osc_12 196.6k
+R_c1_13 osc_1 osc_13 154.1k
+R_c1_14 osc_1 osc_14 170.1k
+R_c1_15 osc_1 osc_15 200.2k
+R_c2_3 osc_2 osc_3 116.4k
+R_c2_4 osc_2 osc_4 150.9k
+R_c2_5 osc_2 osc_5 127.6k
+R_c2_6 osc_2 osc_6 145.2k
+R_c2_7 osc_2 osc_7 123.4k
+R_c2_8 osc_2 osc_8 128.0k
+R_c2_9 osc_2 osc_9 129.4k
+R_c2_10 osc_2 osc_10 132.8k
+R_c2_11 osc_2 osc_11 157.5k
+R_c2_12 osc_2 osc_12 160.8k
+R_c2_13 osc_2 osc_13 138.7k
+R_c2_14 osc_2 osc_14 153.4k
+R_c2_15 osc_2 osc_15 119.2k
+R_c3_4 osc_3 osc_4 190.3k
+R_c3_5 osc_3 osc_5 151.0k
+R_c3_6 osc_3 osc_6 172.3k
+R_c3_7 osc_3 osc_7 118.3k
+R_c3_8 osc_3 osc_8 126.9k
+R_c3_9 osc_3 osc_9 144.5k
+R_c3_10 osc_3 osc_10 132.8k
+R_c3_11 osc_3 osc_11 146.3k
+R_c3_12 osc_3 osc_12 145.8k
+R_c3_13 osc_3 osc_13 165.4k
+R_c3_14 osc_3 osc_14 133.3k
+R_c3_15 osc_3 osc_15 119.0k
+R_c4_5 osc_4 osc_5 181.5k
+R_c4_6 osc_4 osc_6 220.8k
+R_c4_7 osc_4 osc_7 177.7k
+R_c4_8 osc_4 osc_8 205.3k
+R_c4_9 osc_4 osc_9 185.2k
+R_c4_10 osc_4 osc_10 194.0k
+R_c4_11 osc_4 osc_11 162.4k
+R_c4_12 osc_4 osc_12 148.4k
+R_c4_13 osc_4 osc_13 113.8k
+R_c4_14 osc_4 osc_14 152.8k
+R_c4_15 osc_4 osc_15 155.2k
+R_c5_6 osc_5 osc_6 118.1k
+R_c5_7 osc_5 osc_7 138.2k
+R_c5_8 osc_5 osc_8 113.4k
+R_c5_9 osc_5 osc_9 151.1k
+R_c5_10 osc_5 osc_10 86.8k
+R_c5_11 osc_5 osc_11 118.9k
+R_c5_12 osc_5 osc_12 156.5k
+R_c5_13 osc_5 osc_13 169.4k
+R_c5_14 osc_5 osc_14 127.2k
+R_c5_15 osc_5 osc_15 170.9k
+R_c6_7 osc_6 osc_7 80.9k
+R_c6_8 osc_6 osc_8 119.6k
+R_c6_9 osc_6 osc_9 182.8k
+R_c6_10 osc_6 osc_10 104.6k
+R_c6_11 osc_6 osc_11 139.9k
+R_c6_12 osc_6 osc_12 139.9k
+R_c6_13 osc_6 osc_13 164.6k
+R_c6_14 osc_6 osc_14 132.6k
+R_c6_15 osc_6 osc_15 199.9k
+R_c7_8 osc_7 osc_8 130.9k
+R_c7_9 osc_7 osc_9 251.7k
+R_c7_10 osc_7 osc_10 199.1k
+R_c7_11 osc_7 osc_11 156.2k
+R_c7_12 osc_7 osc_12 201.6k
+R_c7_13 osc_7 osc_13 158.1k
+R_c7_14 osc_7 osc_14 154.9k
+R_c7_15 osc_7 osc_15 213.8k
+R_c8_9 osc_8 osc_9 148.3k
+R_c8_10 osc_8 osc_10 187.1k
+R_c8_11 osc_8 osc_11 184.2k
+R_c8_12 osc_8 osc_12 142.8k
+R_c8_13 osc_8 osc_13 135.8k
+R_c8_14 osc_8 osc_14 125.3k
+R_c8_15 osc_8 osc_15 123.7k
+R_c9_10 osc_9 osc_10 198.3k
+R_c9_11 osc_9 osc_11 137.1k
+R_c9_12 osc_9 osc_12 98.8k
+R_c9_13 osc_9 osc_13 167.1k
+R_c9_14 osc_9 osc_14 160.4k
+R_c9_15 osc_9 osc_15 159.3k
+R_c10_11 osc_10 osc_11 123.2k
+R_c10_12 osc_10 osc_12 121.2k
+R_c10_13 osc_10 osc_13 197.2k
+R_c10_14 osc_10 osc_14 154.7k
+R_c10_15 osc_10 osc_15 197.9k
+R_c11_12 osc_11 osc_12 165.0k
+R_c11_13 osc_11 osc_13 140.8k
+R_c11_14 osc_11 osc_14 169.4k
+R_c11_15 osc_11 osc_15 159.2k
+R_c12_13 osc_12 osc_13 176.2k
+R_c12_14 osc_12 osc_14 155.6k
+R_c12_15 osc_12 osc_15 170.3k
+R_c13_14 osc_13 osc_14 141.0k
+R_c13_15 osc_13 osc_15 157.6k
+R_c14_15 osc_14 osc_15 137.6k
 
 * --- SIMULATION COMMANDS ---
 .TRAN 0.1n 100n

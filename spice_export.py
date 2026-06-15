@@ -9,7 +9,7 @@ into a fabrication-ready SPICE schematic (.cir) file.
 import torch
 import torch.nn.functional as F
 
-N_OSCILLATORS = 8
+N_OSCILLATORS = None  # Dynamic - set from params
 
 def export_to_spice(omega, K, damping, filename="magformer_chip.cir"):
     """
@@ -17,6 +17,8 @@ def export_to_spice(omega, K, damping, filename="magformer_chip.cir"):
     K: (N, N) tensor of coupling conductances
     damping: (N,) tensor of damping conductances
     """
+    global N_OSCILLATORS
+    N_OSCILLATORS = len(omega)
     
     # Assume base capacitor size of 1pF for a 180nm process
     C_BASE = 1e-12 
@@ -82,11 +84,22 @@ def export_to_spice(omega, K, damping, filename="magformer_chip.cir"):
     print(f"  Active Crossbar MOSFETs: {active_connections}")
 
 if __name__ == "__main__":
-    print("Generating simulated SPICE export...")
-    torch.manual_seed(42)
-    # Dummy params (normally loaded from the compiled model)
-    omega = F.softplus(torch.randn(N_OSCILLATORS) * 0.5)
-    K = F.softplus(torch.randn(N_OSCILLATORS, N_OSCILLATORS) * 0.5)
-    damping = 0.01 + F.softplus(torch.randn(N_OSCILLATORS) * 0.1)
+    import os
+    
+    # Load trained parameters if available
+    if os.path.exists("trained_parameters.pt"):
+        print("Loading trained physical parameters from trained_parameters.pt...")
+        params = torch.load("trained_parameters.pt")
+        omega = params['omega']
+        K = params['coupling']
+        damping = params['damping']
+        print(f"Loaded {len(omega)} oscillators from trained parameters")
+    else:
+        print("No trained parameters found. Generating simulated SPICE export...")
+        torch.manual_seed(42)
+        N_OSCILLATORS = 8
+        omega = F.softplus(torch.randn(N_OSCILLATORS) * 0.5)
+        K = F.softplus(torch.randn(N_OSCILLATORS, N_OSCILLATORS) * 0.5)
+        damping = 0.01 + F.softplus(torch.randn(N_OSCILLATORS) * 0.1)
     
     export_to_spice(omega, K, damping)

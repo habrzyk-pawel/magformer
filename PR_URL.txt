@@ -1,0 +1,14 @@
+PR for KAN-24: Target Training
+URL: https://github.com/habrzyk-pawel/magformer/pull/new/kan-24-target-training
+
+Instructions:
+1. Visit the URL above
+2. Create pull request
+3. Request review from team
+4. Merge after approval
+
+Status:
+- ✅ Code review passed (parasail-qwen3-coder-next)
+- ✅ All tests passed (target-training 100%, compiler-distillation OK)
+- ✅ Branch pushed to origin/kan-24-target-training
+- ✅ Fixed bugs in tuning scripts (input projection flatten)
