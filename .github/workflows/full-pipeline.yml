@@ -22,29 +22,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install torch torchaudio soundfile torchdiffeq
 
-      - name: Run target training
-        working-directory: .
+      - name: Run Performance Verification (Tiny)
         run: |
-          python demo.py
-
-      - name: Check accuracy threshold
-        run: |
-          python -c "
-          import sys
-          # Simulated results (would be parsed from actual run)
-          result = '''
-          Transformer accuracy:    100.0%
-          Oscillator accuracy:     100.0%
-          Accuracy gap:            +0.0%
-          '''
-          # Check if Transformer accuracy >= 85%
-          if '100.0' in result and '0.0' in result:
-            print('✅ KAN-24: Target Training PASSED')
-            sys.exit(0)
-          else:
-            print('❌ KAN-24: Target Training FAILED')
-            sys.exit(1)
-          "
+          python verify_performance.py --config tiny
 
   compiler-distillation:
     runs-on: ubuntu-latest

@@ -22,27 +22,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install torch torchaudio soundfile
 
-      - name: Run demo.py (Target Training)
-        working-directory: .
+      - name: Run Performance Verification (Tiny)
         run: |
-          python demo.py
+          python verify_performance.py --config tiny
 
-      - name: Check accuracy threshold
+      - name: Run Performance Verification (Medium)
         run: |
-          python -c "
-          import sys
-          result = '''
-          Transformer accuracy:    100.0%
-          Oscillator accuracy:     54.3%
-          '''
-          # Check if Transformer accuracy >= 85%
-          if '100.0' in result or '96.7' in result or '95' in result or '90' in result:
-            print('✅ Transformer accuracy >= 85% threshold PASSED')
-            sys.exit(0)
-          else:
-            print('❌ Transformer accuracy < 85% threshold FAILED')
-            sys.exit(1)
-          "
+          python verify_performance.py --config medium
 
       - name: Generate coverage report
         run: |

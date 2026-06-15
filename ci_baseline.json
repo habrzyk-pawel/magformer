@@ -1,0 +1,16 @@
+{
+  "tiny": {
+    "transformer_accuracy": 100.0,
+    "oscillator_accuracy": 100.0,
+    "accuracy_gap": 0.0,
+    "agreement": 100.0,
+    "distillation_loss": 0.067
+  },
+  "medium": {
+    "transformer_accuracy": 100.0,
+    "oscillator_accuracy": 99.95,
+    "accuracy_gap": 0.05,
+    "agreement": 99.95,
+    "distillation_loss": 0.0775
+  }
+}
