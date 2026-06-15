@@ -82,7 +82,7 @@ class OscillatorNet(nn.Module):
         # Input projection: tokens -> oscillator drive signals
         self.embed = nn.Embedding(VOCAB_SIZE, EMBED_DIM)
         self.input_proj = nn.Sequential(
-            nn.Linear(EMBED_DIM, FFN_DIM),
+            nn.Linear(SEQ_LEN * EMBED_DIM, FFN_DIM),
             nn.GELU(),
             nn.Linear(FFN_DIM, N_OSCILLATORS)
         )
@@ -119,9 +119,8 @@ class OscillatorNet(nn.Module):
 
         # 1. Embed tokens and project to oscillator space
         x = self.embed(tokens)                          # (B, SEQ_LEN, EMBED_DIM)
-        drive = self.input_proj(x)                      # (B, SEQ_LEN, N_OSC)
-        # Aggregate drive signal: each oscillator gets sum of driven inputs
-        u = drive.mean(dim=1)                           # (B, N_OSC)
+        x_flat = x.view(B, -1)                          # (B, SEQ_LEN * EMBED_DIM)
+        u = self.input_proj(x_flat)                     # (B, N_OSC)
 
         # 2. Compute Kuramoto synchronization weights
         omega = self.omega                              # (N_OSC,)
@@ -403,6 +402,14 @@ if __name__ == '__main__':
     # Results
     print("\n[4/4] Final evaluation...")
     print_results(transformer, osc_model, tokens, labels, history)
+
+    # Save parameters for SPICE export
+    torch.save({
+        'omega': osc_model.omega.detach().cpu(),
+        'coupling': osc_model.coupling.detach().cpu(),
+        'damping': osc_model.damping.detach().cpu()
+    }, 'trained_parameters.pt')
+    print("Saved trained physical parameters to trained_parameters.pt")
 
     elapsed = time.time() - start
     print(f"  Total time: {elapsed:.1f}s")
